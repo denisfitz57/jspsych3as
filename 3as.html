@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>>3AS</title>
+    <script src="js/jspsych.js"></script>
+    <script src="js/mytrials.js"></script>
+    <script src="js/jspsych-html-keyboard-response.js"></script>
+    <script src="js/jspsych-image-keyboard-response.js"></script>
+    <script src="js/jspsych-fullscreen.js"></script>
+    <link href="js/jspsych.css" rel="stylesheet" />
+</head>
+
+<body></body>
+<script>
+    var timeline = [];
+    timeline.push({
+        type: 'fullscreen',
+        fullscreen_mode: true
+    });
+
+    var welcome = {
+        type: "html-keyboard-response",
+        stimulus: "Welcome to the experiment. Press any key to begin.",
+    };
+    timeline.push(welcome);
+
+    var AF_procedure = {
+        timeline: [{
+            type: "image-keyboard-response",
+            stimulus: jsPsych.timelineVariable("picture"),
+            choices: jsPsych.NO_KEYS,
+            trial_duration: 400,
+        }, {
+            type: "image-keyboard-response",
+            stimulus: jsPsych.timelineVariable("stimulus"),
+            stimulus_height: 287 * 3,
+            stimulus_width: 287 * 3,
+            choices: ['3', '4', '5', '6'],
+            trial_duration: 400,
+        }, {
+            type: "image-keyboard-response",
+            stimulus: jsPsych.timelineVariable("picture"),
+            choices: ['3', '4', '5', '6'],
+            stimulus_duration: 400,
+            trial_duration: 1700,
+        }, ],
+        timeline_variables: mytrials,
+    };
+    timeline.push(AF_procedure);
+    var done = {
+        type: "html-keyboard-response",
+        stimulus: "Experiment is done. Press any key to end.",
+    };
+    timeline.push(done);
+
+    jsPsych.init({
+        timeline: timeline,
+        on_finish: function() {
+            jsPsych.data.displayData();
+        },
+    });
+</script>
+
+</html>
